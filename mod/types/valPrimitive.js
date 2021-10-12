@@ -1,8 +1,11 @@
 class DestPrimitiveValidators {
     types = {
-        string: "PrimitiveStringObject",
-        boolean: "PrimitiveBooleanObject",
-        number: {}
+        string: "PrimitiveString",
+        boolean: "PrimitiveBoolean",
+        number: {
+            float: "FloatingNumber",
+            int: "FloatingInteger"
+        }
     }
     check(target) {
         switch(typeof target) {
@@ -13,7 +16,16 @@ class DestPrimitiveValidators {
                 return this.types.boolean;
 
             case "number":
-                return;
+                if(this.checkForFloatingNumber(target)) {
+                    return this.types.number.float;
+                }
+                else if(this.checkForIntegerNumber(target)) {
+                    return this.types.number.int;
+                }
+                break;
+
+            case "object":
+                
         }
     }
 
