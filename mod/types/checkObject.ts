@@ -7,4 +7,7 @@ export function checkObject(object:any) {
             return "<pObject>";
         }
     }
+
+    var unknownObjectType:unknown = null;
+    return unknownObjectType;
 }
