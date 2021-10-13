@@ -1,10 +1,16 @@
-class DestPrimitiveValidators {
+import { checkObject } from './checkObject';
+
+export class DestPrimitiveValidators {
     types = {
         string: "PrimitiveString",
         boolean: "PrimitiveBoolean",
         number: {
             float: "FloatingNumber",
             int: "FloatingInteger"
+        },
+        object: {
+            array: "ObjectArray",
+            primitive: "ObjectObject"
         }
     }
     check(target:any) {
@@ -25,7 +31,13 @@ class DestPrimitiveValidators {
                 break;
 
             case "object":
-                break;
+                switch(checkObject(target)) {
+                    case "<array>":
+                        return this.types.object.array;
+                    
+                    case "<pObject>":
+                        return this.types.object.primitive;
+                }
         }
         return null;
     }
