@@ -25,8 +25,9 @@ class DestPrimitiveValidators {
                 break;
 
             case "object":
-                
+                break;
         }
+        return null;
     }
 
     checkForFloatingNumber(num:number) {
