@@ -5,6 +5,11 @@ interface PrimitiveCheckObject {
     object: any
 }
 
+interface IntegrityInformation {
+    targetType: string;
+    isUnique: boolean
+}
+
 export class DestPrimitiveValidators {
     types = {
         string: "PrimitiveString",
@@ -27,17 +32,29 @@ export class DestPrimitiveValidators {
     check(target:any) {
         switch(typeof target) {
             case "string":
-                return this.types.string;
+                return {
+                    objectType: this.types.string,
+                    object: target
+                } as PrimitiveCheckObject;
             
             case "boolean":
-                return this.types.boolean;
+                return {
+                    objectType: this.types.boolean,
+                    object: target
+                } as PrimitiveCheckObject;
 
             case "number":
                 if(this.checkForFloatingNumber(target)) {
-                    return this.types.number.float;
+                    return {
+                        objectType: this.types.number.float,
+                        object: target
+                    } as PrimitiveCheckObject;
                 }
                 else if(this.checkForIntegerNumber(target)) {
-                    return this.types.number.int;
+                    return {
+                        objectType: this.types.number.int,
+                        object: target
+                    } as PrimitiveCheckObject;
                 }
                 break;
 
@@ -68,7 +85,7 @@ export class DestPrimitiveValidators {
                         } as PrimitiveCheckObject;
                 }
         }
-        return null as unknown;
+        return {} as PrimitiveCheckObject;
     }
 
     checkForFloatingNumber(num:number) {
@@ -79,8 +96,36 @@ export class DestPrimitiveValidators {
         return Number.isInteger(num);
     }
 
-    getIterableIntegrity(target:object) {
-        //Todo: not finished
-        return {} as object;
+    /*
+        Returns if the selected object is healthy (holds only one type of information) and also returns its type.
+    */
+    getIterableIntegrity(target:any, primitiveType:string) {
+        let integrityFailures:number = 0;
+        let lastPrimitiveTypeChecked:string = String();
+
+        if(Array.isArray(target)) {
+            target.forEach((value) => {
+                let thisPrimitiveType:string = this.check(value).objectType;
+
+                if(thisPrimitiveType !== primitiveType) {
+                    integrityFailures++;
+                    lastPrimitiveTypeChecked = thisPrimitiveType;
+                }
+            });
+        }
+
+        if(integrityFailures > 0) {
+            return {
+                targetType: "dynamic",
+                isUnique: false
+            } as IntegrityInformation;
+        }
+        else {
+            return {
+                targetType: lastPrimitiveTypeChecked,
+                isUnique: true
+            } as IntegrityInformation;
+        }
+
     }
 }
