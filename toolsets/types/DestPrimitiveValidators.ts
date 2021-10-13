@@ -103,9 +103,21 @@ export class DestPrimitiveValidators {
         let integrityFailures:number = 0;
         let lastPrimitiveTypeChecked:string = String();
 
+        //Integrity checker for arrays
         if(Array.isArray(target)) {
             target.forEach((value) => {
                 let thisPrimitiveType:string = this.check(value).objectType;
+
+                if(thisPrimitiveType !== primitiveType) {
+                    integrityFailures++;
+                    lastPrimitiveTypeChecked = thisPrimitiveType;
+                }
+            });
+        }
+        //Integrity checker for primitive default objects
+        else if(this.check(target).objectType === this.types.object.primitive) {
+            Object.entries(target).forEach((value) => {
+                let thisPrimitiveType:string = this.check(value[1]).objectType;
 
                 if(thisPrimitiveType !== primitiveType) {
                     integrityFailures++;
