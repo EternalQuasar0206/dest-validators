@@ -68,7 +68,7 @@ export class DestPrimitiveValidators {
                         } as PrimitiveCheckObject;
                 }
         }
-        return null;
+        return null as unknown;
     }
 
     checkForFloatingNumber(num:number) {
