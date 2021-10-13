@@ -1,4 +1,4 @@
-export function checkObject(object:object) {
+export function checkObject(object:any) {
     if(Array.isArray(object)) {
         return "<array>";
     }
