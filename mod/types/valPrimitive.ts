@@ -7,7 +7,7 @@ class DestPrimitiveValidators {
             int: "FloatingInteger"
         }
     }
-    check(target) {
+    check(target:any) {
         switch(typeof target) {
             case "string":
                 return this.types.string;
@@ -29,11 +29,11 @@ class DestPrimitiveValidators {
         }
     }
 
-    checkForFloatingNumber(num) {
+    checkForFloatingNumber(num:number) {
         return Number(num) === num && num % 1 !== 0;
     }
 
-    checkForIntegerNumber(num) {
+    checkForIntegerNumber(num:number) {
         return Number.isInteger(num);
     }
 }
