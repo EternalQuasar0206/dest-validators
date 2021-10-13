@@ -30,7 +30,7 @@ class DestPrimitiveValidators {
     }
 
     checkForFloatingNumber(num) {
-        return Number(num) === n && n % 1 !== 0;
+        return Number(num) === num && num % 1 !== 0;
     }
 
     checkForIntegerNumber(num) {
