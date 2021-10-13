@@ -10,7 +10,9 @@ export class DestPrimitiveValidators {
         },
         object: {
             array: "ObjectArray",
-            primitive: "ObjectObject"
+            primitive: "ObjectObject",
+            map: "ObjectMap",
+            set: "ObjectSet"
         }
     }
     check(target:any) {
@@ -37,6 +39,12 @@ export class DestPrimitiveValidators {
                     
                     case "<pObject>":
                         return this.types.object.primitive;
+                    
+                    case "<mapObject>":
+                        return this.types.object.map;
+                    
+                    case "<setObject>":
+                        return this.types.object.set;
                 }
         }
         return null;

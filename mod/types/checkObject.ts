@@ -3,11 +3,20 @@ export function checkObject(object:any) {
         return "<array>";
     }
     else {
-        if(object.toString() === "[object Object]") {
-            return "<pObject>";
+        switch(object.toString()) {
+            case "[object Object]":
+                return "<pObject>";
+            
+            case "[object Map]":
+                return "<mapObject>";
+            
+            case "[object Set]":
+                return "<setObject>";
+
+            default:
+                break;
         }
     }
 
-    var unknownObjectType:unknown = null;
-    return unknownObjectType;
+    return null as unknown;
 }
