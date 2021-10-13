@@ -1,5 +1,10 @@
 import { checkObject } from './checkObject';
 
+interface PrimitiveCheckObject {
+    objectType: string;
+    object: any
+}
+
 export class DestPrimitiveValidators {
     types = {
         string: "PrimitiveString",
@@ -15,6 +20,10 @@ export class DestPrimitiveValidators {
             set: "ObjectSet"
         }
     }
+    /* 
+        check() returns the main type of target, it will determine the main instance 
+        based on JavaScript primitive types/constructors 
+    */
     check(target:any) {
         switch(typeof target) {
             case "string":
@@ -35,16 +44,28 @@ export class DestPrimitiveValidators {
             case "object":
                 switch(checkObject(target)) {
                     case "<array>":
-                        return this.types.object.array;
+                        return {
+                            objectType: this.types.object.array,
+                            object: target
+                        } as PrimitiveCheckObject;
                     
                     case "<pObject>":
-                        return this.types.object.primitive;
+                        return {
+                            objectType: this.types.object.primitive,
+                            object: target
+                        } as PrimitiveCheckObject;
                     
                     case "<mapObject>":
-                        return this.types.object.map;
+                        return {
+                            objectType: this.types.object.map,
+                            object: target
+                        } as PrimitiveCheckObject;
                     
                     case "<setObject>":
-                        return this.types.object.set;
+                        return {
+                            objectType: this.types.object.set,
+                            object: target
+                        } as PrimitiveCheckObject;
                 }
         }
         return null;
@@ -56,5 +77,10 @@ export class DestPrimitiveValidators {
 
     checkForIntegerNumber(num:number) {
         return Number.isInteger(num);
+    }
+
+    getIterableIntegrity(target:object) {
+        //Todo: not finished
+        return {} as object;
     }
 }
